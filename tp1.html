@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TP1 compte a rebours</title>
+		<script>
+			var compteur=10;
+
+			function inter() {
+				setInterval(decompte, 1000);
+			}
+
+			function decompte() {
+				document.getElementById("conteneur").innerHTML=compteur;
+				if(compteur<=0) {
+					clearInterval(inter);
+				} else {
+					compteur=compteur-1;
+				}
+			}				 	
+		</script>
+	</head>
+	<body onload="inter();">
+		<div id="conteneur"></div>
+	</body>
+</html>
