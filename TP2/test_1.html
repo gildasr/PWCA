@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TP2 Q1</title>
+		<style>
+			#carre {
+				position:absolute;
+				background-color:red;
+				height:200px;
+				width:200px;
+				margin:10px;
+				right:0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="carre"></div>
+		<button id="start">Start</button>
+		<button id="reset">Reset</button>
+	</body>
+	<script>
+		document.getElementById("start").addEventListener("click", start);
+		document.getElementById("reset").addEventListener("click", reset);
+		
+		
+		var elem = document.getElementById("carre");
+		var right = 0;
+		var timer;
+
+
+		function pausecomp(millis) {
+			var date = new Date();
+			var curDate = null;
+			do { 
+				curDate = new Date(); 
+			} while(curDate-date < millis);
+		} 
+
+		
+		function start() {
+			anim();
+		}
+
+
+		function anim() {
+			timer = setInterval(function() {
+				pausecomp(50);	//l'animation est ralentie, et par conséquent n'est plus fluide.
+				elem.style.right = (right += 10)+"px";
+				if (right > 400) {
+					clearInterval(timer);
+				}
+			}, 16);
+		}
+
+
+		function reset() {
+			right = 0;
+			elem.style.right = right+"px";
+		}
+	</script>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TP2 Q6</title>
+		<style>
+			#image {
+				/*On masque le sprite pour n'afficher que les images voulues dans le canvas.*/
+				display:none;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas  id="canvas">HTML5 canvas</canvas>
+		<img id ="image" src="images/coin-sprite-animation.png"/>
+		<button id="start">Start</button>
+	</body>
+	<script>
+		//Contourner les différences de syntaxe suivant le navigateur.
+		var animationFrame = window.requestAnimationFrame ||
+								 window.mozRequestAnimationFrame ||
+              				 window.webkitRequestAnimationFrame ||
+								 window.msRequestAnimationFrame;		
+
+
+		document.getElementById("start").addEventListener("click", start);
+		
+		
+		var img = document.getElementById("image");
+		var i = 0;
+
+
+		function start() {
+			animationFrame(anim);
+		}
+
+
+		function anim() {
+			//Utilisation d'un compteur pour partitionner le sprite (avec remise à 0).
+			if (i == 10) {
+				i = 0;
+			}
+  			var ctx = document.getElementById("canvas").getContext("2d");
+			//On efface l'image.
+			ctx.clearRect(0,0,100,100);
+			//On affiche qu'une image du sprite.
+  			ctx.drawImage(img,i*100,0,100,100,0,0,100,100);
+			i++;
+			animationFrame(anim);
+		}
+	</script>
+</html>

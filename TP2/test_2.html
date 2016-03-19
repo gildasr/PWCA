@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TP2 Q2</title>
+		<style>
+			#carre {
+				position:absolute;
+				background-color:red;
+				height:200px;
+				width:200px;
+				margin:10px;
+				right:0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="carre"></div>
+		<button id="start">Start</button>
+		<button id="reset">Reset</button>
+	</body>
+	<script>
+		document.getElementById("start").addEventListener("click", start);
+		document.getElementById("reset").addEventListener("click", reset);
+		
+		
+		var elem = document.getElementById("carre");
+		var right = 0;
+		var timer;
+		var lastDate;
+
+
+		function start() {
+			lastDate = new Date();
+			anim();
+		}
+
+
+		function anim() {
+			timer = setInterval(function() {
+				var newDate = new Date();
+				//On calcule le temps qui s'est écoulé depuis l'affichage de la dernière trame.
+				var delta = newDate - lastDate;
+				elem.style.right = (right += (10/16)*delta)+"px";	//vitesse = 10px/16ms.
+				if (right > 400) {
+					clearInterval(timer);
+				}
+				lastDate = newDate;
+			}, 16);
+		}
+
+
+		function reset() {
+			right = 0;
+			elem.style.right = right+"px";
+		}
+	</script>
+</html>
