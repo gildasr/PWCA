@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>TP3</title>
+	</head>
+	<body>
+		<!--tabindex pour pouvoir utiliser le clavier dans le canvas-->
+		<canvas  id="canvas" height="500" width="500" tabindex="0" style="border: solid 2px black;">HTML5 canvas</canvas>	
+		<img id ="image" src="sprite1.png" style="display:none"/>
+	</body>
+	<script>
+
+		var animationFrame = window.requestAnimationFrame ||
+								 window.mozRequestAnimationFrame ||
+              				 window.webkitRequestAnimationFrame ||
+								 window.msRequestAnimationFrame;		
+
+		var canvas = document.getElementById("canvas");
+  		var ctx = canvas.getContext("2d");
+		var img = document.getElementById("image");
+		//Nécessaire dans le calcul des coordonnées de la souris.
+		var rect = canvas.getBoundingClientRect();
+
+		canvas.addEventListener("keydown", doKeyDown, true);
+		canvas.addEventListener("keyup", doKeyUp, true);
+		canvas.addEventListener("mousedown", doMouseDown, false);
+
+		var click = false;
+		var down = false;
+
+		var deplac;
+		var i = 0;
+		var x = 186;
+		var y = 186;
+		var X = 0;
+		var Y = 0;
+
+		ctx.drawImage(img,128,256,128,128,x,y,128,128);
+
+
+		function move() {
+			ctx.clearRect(0,0,500,500);
+			switch (deplac) {
+				case 0:	//left
+					x -= 2;
+				break;
+				case 1:	//right
+	  				x += 2;
+				break;
+				case 2:	//down
+	  				y += 2;
+				break;
+				case 3:	//up
+	  				y -= 2;
+				break;
+				default:
+			}
+			ctx.drawImage(img,i*128,deplac*128,128,128,x,y,128,128);
+			i++;
+			if (i < 4) {
+				//Temps entre chaque anim pour un mouvement fluide.
+				setTimeout(function() {animationFrame(move);}, 100);
+			} else {
+				i = 0;
+			}
+		}
+
+		
+		function doKeyDown (event) {
+			if (event.defaultPrevented) {
+				return; // Should do nothing if the key event was already consumed.
+			}
+			switch (event.key) {
+				case "ArrowLeft":		// Do something for "left arrow" key press.
+					if (down == false && click == false) {
+						down = true;
+						deplac = 0;
+						animationFrame(keyMove);
+					}
+				break;
+				case "ArrowRight":	// Do something for "right arrow" key press.
+					if (down == false && click == false) {
+						down = true;
+						deplac = 1;
+						animationFrame(keyMove);
+					}
+				break;				
+				case "ArrowDown":		// Do something for "down arrow" key press.
+					if (down == false && click == false) {
+						down = true;
+						deplac = 2;
+						animationFrame(keyMove);
+					}
+				break;
+				case "ArrowUp":		// Do something for "up arrow" key press.
+					if (down == false && click == false) {
+						down = true;
+						deplac = 3;
+						animationFrame(keyMove);
+					}
+				break;
+				case "Enter":			// Do something for "enter" or "return" key press.
+					if (down == false && click == false) {
+						x = 186;
+						y = 186;
+						ctx.clearRect(0,0,500,500);
+						ctx.drawImage(img,128,256,128,128,x,y,128,128);
+					}
+				break;
+				default:
+				return; // Quit when this doesn't handle the key event.
+			}
+			// Consume the event for suppressing "double action".
+			event.preventDefault();
+		}
+
+
+		function doKeyUp (event) {
+			if (event.defaultPrevented) {
+				return; // Should do nothing if the key event was already consumed.
+			}
+			switch (event.key) {
+				case "ArrowLeft":		// Do something for "left arrow" key press.
+						down = false;
+				break;
+				case "ArrowRight":	// Do something for "right arrow" key press.
+						down = false;
+				break;				
+				case "ArrowDown":		// Do something for "down arrow" key press.
+						down = false;
+				break;
+				case "ArrowUp":		// Do something for "up arrow" key press.
+						down = false;
+				break;
+				default:
+				return; // Quit when this doesn't handle the key event.
+			}
+			// Consume the event for suppressing "double action".
+			event.preventDefault();
+		}
+
+
+		function keyMove() {
+			animationFrame(move);
+			if (down == true) {
+				setTimeout(function() {animationFrame(keyMove);}, 400);
+			}
+		}
+
+
+		function doMouseDown (event) {
+			//On ne peut pas modifier le deplacement une fois lancé (si on souhaite le contraire, il suffit de sortir les affectations de X et Y du test).
+			if (click == false && down == false) {
+				//Coordonnées de la souris - 64px (car x et y correspondent au coin sup-gauche et non au milieu de l'image).
+				X = (event.clientX - rect.left) - 64;
+				Y = (event.clientY - rect.top) - 64;
+				click = true;
+				animationFrame(mouseMove);
+			}
+		}
+
+
+		function mouseMove() {
+				//déplacement horizontal.
+				if (X - x < -7) {
+					deplac = 0;
+					animationFrame(move);
+				} else if (X - x > 7) {
+					deplac = 1;
+					animationFrame(move);
+				} else {
+					//déplacement vertical.
+					if (Y - y > 7) {
+						deplac = 2;
+						animationFrame(move);
+					} else if (Y - y < -7) {
+						deplac = 3;
+						animationFrame(move);
+					} else {
+						click = false;
+					}
+				}
+				if (click == true) {
+					//temps correspondant à l'enchainement des anims pour un déplacement
+					setTimeout(function() {animationFrame(mouseMove);}, 400);
+				}
+		}
+
+	</script>
+</html>
