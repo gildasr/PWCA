@@ -133,6 +133,7 @@ Hero.prototype.opening = function(tabOfObjects) {
 		//test si devant un coffre ou non.
 		if((this.dir === 1) && (tabOfObjects[index].open === false) && (this.x === tabOfObjects[index].x) && (this.y === tabOfObjects[index].y + caseSize)) {
 			if(tabOfObjects[index].empty === false) {
+				this.open = true;
 				this.life += 1;
 			}
 			//update des etats du coffre.
