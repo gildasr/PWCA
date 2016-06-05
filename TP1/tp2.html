@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TP2 Q1</title>
+		<script>
+			var deplace=0;
+
+			function inter() {
+				setInterval(deplacement, 100);
+			}
+
+			function deplacement() {
+				deplace+=10;
+				document.getElementById("carre").style.left=deplace+"px";
+			}		
+		</script>
+		<style>
+			#carre {
+				position:relative;
+				background-color:red;
+				height:200px;
+				width:200px;
+				margin:10px;
+				right:0;
+			}
+		</style>
+	</head>
+	<body onload="inter();">
+		<div id="carre"></div>
+	</body>
+</html>

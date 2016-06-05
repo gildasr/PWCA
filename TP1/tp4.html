@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TP1 carre rouge 3</title>
+		<script>
+			var deplace=0;
+
+			function inter() {
+				setInterval(function() {deplacement(1);}, 100);
+				setTimeout(function() {setInterval(function() {deplacement(2);}, 100);}, 1000);
+				setTimeout(function() {setInterval(function() {deplacement(3);}, 100);}, 2000);
+			}
+
+			function deplacement(nb) {
+				if(nb===1) {
+					deplace+=10;
+				}
+				document.getElementById("carre"+nb).style.left=deplace-(nb-1)*100+"px";
+			}
+		</script>
+		<style>
+			.carre {
+				position:relative;
+				background-color:red;
+				height:200px;
+				width:200px;
+				margin:10px;
+			}
+		</style>
+	</head>
+	<body onload="setTimeout(inter, 4000);">
+		<div id="carre1" class="carre"></div>
+		<div id="carre2" class="carre"></div>
+		<div id="carre3" class="carre"></div>
+	</body>
+</html>
